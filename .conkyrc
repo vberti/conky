@@ -1,0 +1,106 @@
+##############################################
+#  Settings
+##############################################
+alignment top_right
+background yes
+border_width 0
+color0 727272 
+color1 727272  
+cpu_avg_samples 2
+default_color white
+default_outline_color green
+default_shade_color red
+double_buffer yes
+draw_borders no
+draw_graph_borders no
+draw_outline no
+draw_shades no
+gap_x 10
+gap_y 15
+maximum_width 200
+minimum_size 0 0
+no_buffers yes
+override_utf8_locale no
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_transparent no
+own_window_type normal
+own_window yes
+total_run_times 0
+update_interval 2
+uppercase no
+use_spacer right
+use_xft yes
+xftalpha 0.8
+xftfont  Bitstream Vera Sans Mono:size=8
+own_window_argb_value 0
+own_window_argb_visual no
+own_window_colour 000000
+
+TEXT
+##############################################
+#DATE
+##############################################
+${color0}${font Ubuntu:bold:size=8}DATE ${hr 2}$color
+${voffset 10}${alignc}${color2}${font Liberation Sans:style=Bold:size=30}${time %H:%M}${font} ${time %p}${color}
+${alignc 13}${time %A - %d de %B de %Y}
+#${offset 100}${time %A - %d de %B de %Y}
+
+##############################################
+#SYSTEM
+##############################################
+${color0}${font Ubuntu:bold:size=8}SYSTEM ${hr 2}$color
+${font Ubuntu:normal:size=8}$sysname $kernel $alignr $machine
+Hostname:$alignr$nodename
+Uptime:$alignr$uptime
+File System: $alignr${fs_type}
+#Entropy: $alignr[${entropy_perc}]%
+#Packages: $alignr${execi 1.0 pacman -Q | wc --lines}
+
+##############################################
+#CPU
+##############################################
+${color0}${font Ubuntu:bold:size=8}CPU ${hr 2}$color
+${font Ubuntu:normal:size=8}${execi 600 lshw | grep CPU | grep product | awk {'print $2 $4 $6 $7'}} - $alignr T: $color ${exec sensors|grep 'Core 0'|awk '{print $3}' | cut -d "." -f 1} C
+${color0}${font Ubuntu:normal:size=8}${cpugraph cpu1 cpu2 cpu3 cpu4 20,140 000000 ffffff}${color}
+${font Ubuntu:normal:size=8}Core1: ${freq 1} Mhz
+${cpu cpu1}%  ${offset 5}${color1} ${cpubar cpu1}$color
+${font Ubuntu:normal:size=8}Core2: ${freq 2} Mhz
+${cpu cpu2}%  ${offset 5} ${color1} ${cpubar cpu2}$color
+${font Ubuntu:normal:size=8}Core3: ${freq 3} Mhz
+${cpu cpu3}%  ${offset 5} ${color1} ${cpubar cpu3}$color
+${font Ubuntu:normal:size=8}Core4: ${freq 4} Mhz
+${cpu cpu4}%  ${offset 5} ${color1} ${cpubar cpu4}$color
+
+${color0}NAME${goto 113} PID${goto 153}  CPU% ${goto 164}$color
+${top name 1}${goto 110}${top pid 1}${goto 155} ${top cpu 1}
+${top name 2}${goto 110}${top pid 2}${goto 155} ${top cpu 2}
+${top name 3}${goto 110}${top pid 3}${goto 155} ${top cpu 3}
+${top name 4}${goto 110}${top pid 4}${goto 155} ${top cpu 4}
+${top name 5}${goto 110}${top pid 5}${goto 155} ${top cpu 5}
+${top name 6}${goto 110}${top pid 6}${goto 155} ${top cpu 6}
+
+##############################################
+#MEMORY
+##############################################
+${color0}${font Ubuntu:bold:size=8}MEMORY ${hr 2}$color
+${font Ubuntu:normal:size=8}Ram: $alignc $mem / $memmax $alignr $memperc%
+${color1}$membar${color}
+
+${color0}NAME ${goto 75} PID ${goto 120} MEM ${goto 170} % $color
+${top_mem name 1}${goto 70}${top_mem pid 1}${goto 113}${top mem_res 1}${goto 162}${top mem 1} 
+${top_mem name 2}${goto 70}${top_mem pid 2}${goto 113}${top mem_res 2}${goto 162}${top mem 2}
+${top_mem name 3}${goto 70}${top_mem pid 3}${goto 113}${top mem_res 3}${goto 162}${top mem 3}
+${top_mem name 4}${goto 70}${top_mem pid 4}${goto 113}${top mem_res 4}${goto 162}${top mem 4}
+${top_mem name 5}${goto 70}${top_mem pid 5}${goto 113}${top mem_res 5}${goto 162}${top mem 5}
+
+##############################################
+#NETWORK
+##############################################
+${color0}${font Ubuntu:bold:size=8}NETWORK ${hr 2}$color
+${font Ubuntu:normal:size=8}Local: 	$alignr${addr enp2s0f1}
+${font Ubuntu:normal:size=8}Wifi: 	$alignr${addr wlp3s0}
+${font Ubuntu:normal:size=8}Public: 		$alignr${execi 450 curl ipinfo.io/ip}
+${downspeedgraph enp2s0f1 20,140 000000 ffffff}
+Down: $alignc ${downspeed enp2s0f1}/s $alignr Total: ${totaldown enp2s0f1}
+${upspeedgraph enp2s0f1 20,140 000000 ffffff}
+Up: $alignc ${upspeed enp2s0f1}/s $alignr Total: ${totalup enp2s0f1}
